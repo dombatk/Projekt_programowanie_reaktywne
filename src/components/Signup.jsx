@@ -1,38 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import Top from "./Top";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const Signup = () => {
-    return(
+  const [Name, SetName] = useState("");
+  const [Password, SetPassword] = useState("");
+  const [Email, SetEmail] = useState("");
+  const [isSuccess, setSuccess] = useState(null);
+  const [message, setMessage] = useState("");
+
+  let navigate = useNavigate();
+  const register = (e) => {
+    e.preventDefault();
+    axios({
+      method: "post",
+      url: "https://at.usermd.net/api/user/create",
+      data: { name: Name, email: Email, password: Password },
+    })
+      .then((response) => navigate("/"))
+      .catch((error) => {
+        setSuccess(false);
+        setMessage("Wystąpił błąd");
+        });
+        };
+  
+  
+  return(
         
     <div>
       <Top/>
-      <div className="text-center py-3">
-        <form>
-            <label>
-            Login
-            <input type="text" name="login" />
-            </label>
-            <br/>
-            <label>
-            Nazwa
-            <input type="text" name="nazwa" />
-            </label>
-            <br/>
-            <label>
-            Email
-            <input type="text" name="email" />
-            </label>
-            <br/>
-            <label>
-            Haslo
-            <input type="text" name="haslo" />
-            </label>
-            <br/>
-            <input type="submit" value="Zarejestruj" />
+      <div className="App">
+        <div className="formm">
+          <form className="formularz">
+              <label>
+              Login
+              </label>
+              <input type="login" value={Name} onChange={(e) => SetName(e.target.value)} required />
+              
+
+              
+              <label>
+              Email
+              </label>
+              <input type="text" valule={Email} onChange={(e) => SetEmail(e.target.value)} required/>
+              
+              
+              <label>
+              Hasło
+              </label>
+              <input type="password" value={Password} onChange={(e) => SetPassword(e.target.value)} required />
             
-        </form>
+              
+              <button className="link-btn" onClick={register}>Zarejestruj</button>
+              {isSuccess === false && <div className="alert alert-danger">{message}</div>}
+          </form>
         </div>
+      </div>
       <Footer/>
     </div>
     );

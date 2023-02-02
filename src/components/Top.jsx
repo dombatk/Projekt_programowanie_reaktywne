@@ -1,32 +1,66 @@
-import React from 'react';
+import React from "react";
 import './style.css'
-import logo from './logo-social.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { isExpired, decodeToken } from "react-jwt";
 const Top = () => {
+    
+    let navigate = useNavigate();
+
+    const logOut = () => {
+        const token = decodeToken(localStorage.getItem("token"));
+
+        axios({
+        method: "delete",
+        url: `https://at.usermd.net/api/user/logout/${token.userId}`,
+        data: { userId: token.userId },
+        })
+        .then((response) => {
+            localStorage.removeItem("token");
+            navigate("/");
+        })
+        .catch((error) => console.log(error));
+    };
+
+    const isNotLog = isExpired(localStorage.getItem("token"));
+    
     return(
         <div className='top'> 
-            <img src={logo} alt='logo' height={30} width={80} />
+            
             <div className="prawo">
             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li className="nav-item" role="presentation">
                    <Link to="/" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                         aria-controls="pills-home" aria-selected="true">Stron główna</Link>
+                         aria-controls="pills-home" aria-selected="true">Strona główna</Link>
                </li>
-               <li className="nav-item" role="presentation">
-                   <Link to="/signup" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                         aria-controls="pills-home" aria-selected="true">Zaloguj się</Link>
-               </li>
+               {isNotLog && (
+                <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                <li className="nav-item" role="presentation">
                    <Link to="/signin" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                         aria-controls="pills-home" aria-selected="true">Zaloguj się</Link>
+               </li>
+               <li>
+                   <Link to="/signup" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                          aria-controls="pills-home" aria-selected="true">Rejestracja</Link>
                </li>
+               </ul>
+               )}
+               {!isNotLog &&(
+                <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                <li className="nav-item" role="presentation">
                    <Link to="/add" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                          aria-controls="pills-home" aria-selected="true">Dodaj film</Link>
+                </li>
+                <li>         
+                    <Link onClick={logOut} className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                         aria-controls="pills-home" aria-selected="true">Wyloguj</Link>
                </li>
-           </ul>
+               </ul>
+               )}
+           
 
-            <input type="text" placeholder="Search here" />
+           
+            </ul>
             </div>
         </div>
     )

@@ -1,99 +1,56 @@
-import logo from './logo-social.png';
-import React from 'react';
-import { Card, CardGroup } from 'react-bootstrap';
+import React, {Component} from 'react';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import './style.css';
 
-const Movies = () =>{
-   return(
-   <div className='text-center'>
-      <CardGroup>
+ 
+ class Movies extends Component{
+   state = {
+      items: []
+    }
+    componentDidMount() {
+      axios.get('https://at.usermd.net/api/movies/')
+        .then(response => {
+          const items = response.data;
+          this.setState({ items });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    render() {
+      return(
          
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-         
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-         </CardGroup>
-         
-         
-         <CardGroup>
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-         <Card style={{ width: '18rem' }}>
-            <Link to="/details">
-               <Card.Img variant='top' src={logo} height="100"/>
-            </Link>
-            <Card.Body>
-               <Card.Title>
-                  Tytuł filmu
-               </Card.Title>
-               <Card.Text>
-                  Opis filmu
-               </Card.Text>
-            </Card.Body>
-         </Card>
-      </CardGroup>
-    </div>
-   )
-}
+         <div className='srodek'>
+            
+            {this.state.items.map(item => {
+            return (
+               <div key={item.id} className='card'>
+               <Card style={{ width: '18rem' }}>
+                  <Link to={`/details/${item.id}`}>
+                     <Card.Img variant='top' src={item.image} height="300"/>
+                  </Link>
+                  <Card.Body>
+                  <Card.Title>
+                     {item.title}
+                     
+                  </Card.Title>
+                  
+                  </Card.Body>
+               </Card>
+               </div>
+            )
+            })}
+         </div>
+      )
+    }
+   }
+
+
+
+
+
+
 
 export default Movies;
