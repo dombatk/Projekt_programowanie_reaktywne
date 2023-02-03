@@ -5,7 +5,7 @@ import Movies from './components/Movies';
 
 function App() {
   return (
-    <div>
+    <div className='srodek'>
       <Top/>
       <div>
         <Movies/>

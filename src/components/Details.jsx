@@ -29,11 +29,12 @@ const Details = () => {
 
     
     return(
-        <div>
+        <div className="srodek">
             <Top/>
+            <div >
             <div className="card">
                 
-                <Card className="srodek" style={{ width: '18rem' }}>
+                <Card style={{ width: '22rem' }}>
                     <Card.Img variant="top" src={Movies.image} />
                     <Card.Body>
                         <Card.Title>{Movies.title}</Card.Title>
@@ -44,6 +45,7 @@ const Details = () => {
                     
                     
                 </Card>
+            </div>
             </div>
             <Footer/>
         </div>

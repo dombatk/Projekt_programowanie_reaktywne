@@ -30,7 +30,7 @@ const Signin = () => {
   
   return(
         
-    <div>
+    <div className="srodek">
       <Top/>
       <div className="App">
         <div className="formm">

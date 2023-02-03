@@ -22,7 +22,7 @@ const Top = () => {
         .catch((error) => console.log(error));
     };
 
-    const isNotLog = isExpired(localStorage.getItem("token"));
+    const isNotLogged = isExpired(localStorage.getItem("token"));
     
     return(
         <div className='top'> 
@@ -33,7 +33,7 @@ const Top = () => {
                    <Link to="/" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                          aria-controls="pills-home" aria-selected="true">Strona główna</Link>
                </li>
-               {isNotLog && (
+               {isNotLogged && (
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                <li className="nav-item" role="presentation">
                    <Link to="/signin" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
@@ -45,7 +45,7 @@ const Top = () => {
                </li>
                </ul>
                )}
-               {!isNotLog &&(
+               {!isNotLogged &&(
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                <li className="nav-item" role="presentation">
                    <Link to="/add" className="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
